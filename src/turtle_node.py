@@ -20,8 +20,7 @@ class turtle(Node):
         self.newGoal()
     
     def moveTo(self):
-
-        if abs(self.position['x'] - self.previous[0]) > abs(self.goal[0]) and abs(self.position['y'] - self.previous[1]) > abs(self.goal[1]):
+        if self.position['x'] >= self.previous[0] + self.goal[0] and self.position['y'] >= self.previous[1] + self.goal[1]:
             self.newGoal()
 
         self.twist_msg_.linear.x = self.goal[0]
@@ -35,13 +34,12 @@ class turtle(Node):
             self.back.append(self.goal)
             print(self.goal)
         except IndexError:
-            print('CABEI!!!')
-            exit()
-            # try:
-            #     self.goal = self.back.pop(0)
-            #     print(self.goal)
-            # except IndexError:
-            #     print('Acabei!')
+            try:
+                self.goal = self.back.pop()
+                print(self.goal)
+            except IndexError:
+                print('Acabei!')
+                exit()
     
     def handlePose(self, pose):
         self.position['x'] = pose.x
